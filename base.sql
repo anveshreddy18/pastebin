@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS pbin (
+  Id VARCHAR(50),
+  Content TEXT,
+  TimeAt TIMESTAMP
+);
+
+
