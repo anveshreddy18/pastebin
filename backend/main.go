@@ -35,7 +35,10 @@ func main() {
 	app.db = db
 	app.paste_manager = &pm
 
+	// handlers ..
 	r := chi.NewRouter()
+	r.Get("/{hash}", GetPasteHandler())
+	r.Post("/submit", CreatePasteHandler())
 
 	http.ListenAndServe(":8080", r)
 
