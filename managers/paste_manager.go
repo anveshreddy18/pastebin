@@ -7,8 +7,6 @@ import (
 )
 
 // TODO: Fix the error handling
-// TODO: What should be the unique id ??
-// Will the combination of AutoId and passkey -> hash work ?
 
 // Get query.
 
@@ -17,6 +15,10 @@ const ExecQuery = `INSERT INTO TABLE pbin (Id,Content,TimeAt) values ($1,$2,$3)`
 
 type PasteManager struct {
 	db *sql.DB
+}
+
+func (pm *PasteManager) Init(db *sql.DB) {
+	pm.db = db
 }
 
 func (pm *PasteManager) GetPaste(Id int64) (string, time.Time) {

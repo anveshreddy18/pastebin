@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	paste_manager "pastebin/managers"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -11,20 +12,28 @@ import (
 // create a struct and have this DB conn initialized here..
 
 type App struct {
-	db *sql.DB
+	db            *sql.DB
+	paste_manager *paste_manager.PasteManager
 }
 
 func main() {
-	dbConn := "postgres://root:mypass123@localhost:5432/pbin"
-	// some how pass this db connection ...
-	db, err := sql.Open("postgres", dbConn)
 
+	app := App{}
+
+	// initialize db connection.
+	dbConn := "postgres://root:mypass123@localhost:5432/pbin"
+	db, err := sql.Open("postgres", dbConn)
 	if err != nil {
 		fmt.Errorf("Database connection error %s", err)
 	}
 
-	app := App{}
+	// initialize paste_manager.
+	pm := paste_manager.PasteManager{}
+	pm.Init(db)
+
+	// initialize app
 	app.db = db
+	app.paste_manager = &pm
 
 	r := chi.NewRouter()
 

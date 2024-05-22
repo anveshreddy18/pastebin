@@ -1,5 +1,6 @@
 {
     "id": "Bigint",
     "Content": "Text",
-    "TimeStamp": "TimeStamp"
+    "TimeStamp": "TimeStamp",
+    "Hash": "varchar"
 }
