@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS pbin (
+  Id SERIAL PRIMARY KEY,
+  Content TEXT,
+  TimeAt TIMESTAMP,
+  HashId VARCHAR(255)
+);
+
+
