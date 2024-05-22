@@ -38,6 +38,7 @@ func main() {
 	// handlers ..
 	r := chi.NewRouter()
 	r.Get("/{hash}", GetPasteHandler())
+	// r.Get("/",)
 	r.Post("/submit", CreatePasteHandler())
 
 	http.ListenAndServe(":8080", r)
