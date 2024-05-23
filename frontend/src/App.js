@@ -1,29 +1,22 @@
-import Home from "./screen/HomeSceen/HomeScreen";
-import { MantineProvider,createTheme } from '@mantine/core';
+import React from 'react';
+import { createTheme,MantineProvider, Container, Button,Textarea } from '@mantine/core';
+import { ThemeProvider } from "styled-components";
+import Home from './screen/HomeScreen/HomeScreen';
 
 
-const theme = createTheme({
-
-  colors: {
-      // Define your custom colors here
-      primary: '#007bff',
-      // Add more color definitions as needed
-  },
-});
 
 function App() {
   return (
-    <MantineProvider 
-      withGlobalClasses
-      theme={{
-        
-      }}
-    >
-          <div >
-            <h1>PasteBin</h1>
-            <Home/>
-          </div>
-    </MantineProvider>
+   
+        <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+        >
+                <Container>
+                  <h1>Hurray !! Pastebin here :)</h1>
+                    <Home/>
+                </Container>
+          </MantineProvider>
 
   );
 }
