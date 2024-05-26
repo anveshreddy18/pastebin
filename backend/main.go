@@ -16,30 +16,26 @@ type App struct {
 	paste_manager *paste_manager.PasteManager
 }
 
-func main() {
+var app = &App{}
 
-	app := App{}
+func main() {
 
 	// initialize db connection.
 	dbConn := "postgres://root:mypass123@localhost:5432/pbin"
 	db, err := sql.Open("postgres", dbConn)
+	app.db = db
 	if err != nil {
 		fmt.Errorf("Database connection error %s", err)
 	}
 
 	// initialize paste_manager.
-	pm := paste_manager.PasteManager{}
-	pm.Init(db)
-
-	// initialize app
-	app.db = db
-	app.paste_manager = &pm
+	initManagers(app)
 
 	// handlers ..
 	r := chi.NewRouter()
-	r.Get("/{hash}", GetPasteHandler())
+	r.Get("/{number}", GetPasteHandler)
 	// r.Get("/",)
-	r.Post("/submit", CreatePasteHandler())
+	r.Post("/submit", CreatePasteHandler)
 
 	http.ListenAndServe(":8080", r)
 

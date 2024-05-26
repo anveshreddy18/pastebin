@@ -1,4 +1,4 @@
-package paste_manager
+package managers
 
 import (
 	"database/sql"
@@ -21,11 +21,11 @@ func (pm *PasteManager) Init(db *sql.DB) {
 	pm.db = db
 }
 
-func (pm *PasteManager) GetPaste(Id int64) (string, time.Time) {
-	rows, err := pm.db.Query(GetQuery, Id)
+func (pm *PasteManager) GetPaste(Id int64) (string, time.Time, error) {
 
+	rows, err := pm.db.Query(GetQuery, Id)
 	if err != nil {
-		fmt.Errorf("Unable to Retrieve rows with error %s", err)
+		return "", time.Time{}, fmt.Errorf("Unable to Retrieve rows with error %s", err)
 	}
 
 	defer rows.Close()
@@ -44,9 +44,10 @@ func (pm *PasteManager) GetPaste(Id int64) (string, time.Time) {
 
 	}
 
-	return content, timeAt
+	return content, timeAt, nil
 }
 
-func (pm *PasteManager) PostPaste(Id int64, Content string) {
+func (pm *PasteManager) PostPaste(Content string) error {
 	pm.db.Exec(ExecQuery)
+	return nil
 }
