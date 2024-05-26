@@ -1,29 +1,6 @@
 import { useEffect, useState } from "react";
 
 
-function SubmitContent(value,initValue) {
-    if (value === initValue) {
-      console.log("No changes made to content...")
-    }
-    else{
-      SubmitContent(body)
-    }
-}
-
-async function SubmitContent(body){
-
-  try{
-    const res = await fetch("http://localhost:8080/submit",{
-      method:"POST",
-      body:JSON.stringify(body)
-    });
-  }
-  catch(err){
-      console.log(err);
-  }
-  
-}
-
 function Edit(){
   const hashId = match.params.hash;
 
@@ -33,6 +10,28 @@ function Edit(){
   var initValue
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+
+  async function SubmitContent(body){
+    if (value === initValue) {
+      console.log("No changes made to content...")
+    }
+    else{
+      try{
+        setIsLoading(true);
+        const res = await fetch("http://localhost:8080/submit",{
+          method:"POST",
+          body:JSON.stringify(body)
+        });
+        
+      }
+      catch(err){
+          console.log(err);
+      }
+      finally{
+        setIsLoading(false)
+      }
+    }  
+  }
 
   useEffect(()=>{
     dofetch = async ()=>{
@@ -55,9 +54,10 @@ function Edit(){
     dofetch();
   },[])
 
-  
     return (
-        <div>
+      <div>
+    {!isLoading ? 
+          <div>
           <Textarea
             variant="filled"
             size="xl"
@@ -71,7 +71,10 @@ function Edit(){
              Submit
           </Button>
         </div>
-        </div>
+        </div>:
+        <Loader color="blue" />
+        }
+      </div>
       );
 }
 
