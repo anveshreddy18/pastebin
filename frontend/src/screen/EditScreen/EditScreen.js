@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 function SubmitContent(value,initValue) {
     if (value === initValue) {
-      return ;
+      console.log("No changes made to content...")
     }
     else{
       SubmitContent(body)
@@ -53,7 +53,7 @@ function Edit(){
     }
 
     dofetch();
-  })
+  },[])
 
   
     return (

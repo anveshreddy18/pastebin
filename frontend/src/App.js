@@ -17,8 +17,8 @@ function App() {
 
         <BrowserRouter>
         <Routes>
-            <Route path="/" element={<Home />}>
-          </Route>
+            <Route path="/" element={<Home />}></Route>
+            {/* <Route path="/:hash" element={<Edit/> }></Route> */}
         </Routes>
       </BrowserRouter>
             

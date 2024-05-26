@@ -5,8 +5,12 @@ import (
 	"net/http"
 )
 
+type resBody struct {
+}
+
 func GetPasteHandler() http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
+
 		fmt.Fprintf(rw, "This is the request %s", r.URL)
 	}
 }
