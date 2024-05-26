@@ -2,6 +2,8 @@ import React from 'react';
 import { createTheme,MantineProvider, Container, Button,Textarea } from '@mantine/core';
 import { ThemeProvider } from "styled-components";
 import Home from './screen/HomeScreen/HomeScreen';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 
 
 
@@ -12,10 +14,14 @@ function App() {
           withGlobalStyles
           withNormalizeCSS
         >
-                <Container>
-                  <h1>Hurray !! Pastebin here :)</h1>
-                    <Home/>
-                </Container>
+
+        <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<Home />}>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+            
           </MantineProvider>
 
   );
