@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
+import {Container,Textarea,Button,Loader} from '@mantine/core'
+import { useParams ,useNavigate} from "react-router-dom";
 
 
 function Edit(){
-  const hashId = match.params.hash;
 
-  console.log(hashId);
+  const navigate = useNavigate();
+  const {hash} = useParams()
+
+  console.log(hash);
 
   // create state objects ...
   var initValue
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
+
+  // TODO: Submit change that we have performed in HomeScreen..
   async function SubmitContent(body){
     if (value === initValue) {
       console.log("No changes made to content...")
@@ -22,6 +28,12 @@ function Edit(){
           method:"POST",
           body:JSON.stringify(body)
         });
+
+        const respBody = await res.json()
+
+        // assuming respBody contains hash field.
+        const hash =respBody.hash;
+        navigate("/"+hash);
         
       }
       catch(err){
@@ -33,11 +45,29 @@ function Edit(){
     }  
   }
 
+  // TODO: put a warning before deleting like (Modal)..
+
+  async function DeleteContent(){
+    try{
+      setIsLoading(true);
+      const res = await fetch('http://localhost:8080/delete/'+hash,{
+        method: "DELETE",
+      })
+    }
+    catch(e){
+      console.log("Error deleting the data:", e);
+    }
+    finally{
+      setIsLoading(false)
+      navigate("/");
+    }
+  }
+
   useEffect(()=>{
-    dofetch = async ()=>{
+    const dofetch = async ()=>{
       try{
-        const resBody =  await fetch('http://localhost:8080/${hashId}',{
-          method: "Get",
+        const resBody =  await fetch('http://localhost:8080/'+hash,{
+          method: "GET",
         })
 
         const res = await resBody.json();
@@ -48,6 +78,7 @@ function Edit(){
       catch(e){
         console.log("Error fetching the data:",e);
         setIsLoading(false);
+        navigate('/not-found')
       }
     }
 
@@ -55,7 +86,8 @@ function Edit(){
   },[])
 
     return (
-      <div>
+      <Container>
+      <h1>Hurray !! Pastebin here :)</h1>
     {!isLoading ? 
           <div>
           <Textarea
@@ -70,12 +102,15 @@ function Edit(){
           <Button variant="filled" onClick={()=>SubmitContent(value,initValue)}>
              Submit
           </Button>
+          <Button variant="light" color="red" onClick={()=>DeleteContent()}>
+            Delete
+          </Button>
         </div>
         </div>:
         <Loader color="blue" />
         }
-      </div>
+     </Container>
       );
 }
 
-export default Edit
+export default Edit;
