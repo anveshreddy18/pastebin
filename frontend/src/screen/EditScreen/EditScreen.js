@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import {Container,Textarea,Button,Loader} from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks';
+import {Container,Textarea,Button,Loader,Modal} from '@mantine/core'
 import { useParams ,useNavigate} from "react-router-dom";
 
 
@@ -14,9 +15,10 @@ function Edit(){
   var initValue
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [opened, { open, close }] = useDisclosure(false);
 
 
-  // TODO: Submit change that we have performed in HomeScreen..
+
   async function SubmitContent(body){
     if (value === initValue) {
       console.log("No changes made to content...")
@@ -45,7 +47,6 @@ function Edit(){
     }  
   }
 
-  // TODO: put a warning before deleting like (Modal)..
 
   async function DeleteContent(){
     try{
@@ -102,9 +103,21 @@ function Edit(){
           <Button variant="filled" onClick={()=>SubmitContent(value,initValue)}>
              Submit
           </Button>
-          <Button variant="light" color="red" onClick={()=>DeleteContent()}>
-            Delete
-          </Button>
+          <div>
+          <Modal opened={opened} onClose={close} withCloseButton={false}>
+            Do you want to delete the below paste ...
+            <Button variant="Light" onClick={close}>
+              No
+            </Button>
+            <Button variant="light" color="red" onClick={()=>{DeleteContent()}}>
+               Yes
+            </Button>
+          </Modal>
+            <Button variant="light" color="red" onClick={open}>
+              Delete
+            </Button>
+          </div>
+          
         </div>
         </div>:
         <Loader color="blue" />
