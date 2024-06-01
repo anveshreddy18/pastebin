@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  backend:
+    image: rithvik89/pb_backend:latest
+    container_name: pastebin_backend
+    depends_on:
+      - db
+  
+  db:
+    image: postgres:latest
+    container_name: pastebin_db
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=mypass123
+    volumes:
+      - ./:/docker-entrypoint-initdb.d
+    
