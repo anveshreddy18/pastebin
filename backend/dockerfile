@@ -1,0 +1,25 @@
+
+##TODO:  convert this into multi-stage build..
+
+## stage 1: Build the Go app
+
+FROM golang:1.17 AS builder
+
+WORKDIR /app
+
+COPY ./go.mod .
+COPY ./go.sum .
+
+## install 
+RUN go mod download
+
+## COPY the src code.
+COPY . .
+
+## Build the app.
+RUN go build .
+
+
+EXPOSE 8080
+
+ENTRYPOINT [ "./pastebin" ]
