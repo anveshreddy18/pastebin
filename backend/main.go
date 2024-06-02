@@ -36,6 +36,7 @@ func main() {
 	r.Get("/{number}", GetPasteHandler)
 	// r.Get("/",)
 	r.Post("/submit", CreatePasteHandler)
+	r.Delete("/delete", DeletePasteHandler)
 
 	http.ListenAndServe(":8080", r)
 
